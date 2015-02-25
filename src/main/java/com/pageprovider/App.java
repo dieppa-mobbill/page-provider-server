@@ -22,7 +22,12 @@ public class App
 
         live = (args.length >0 && "live".equals(args[0]));
 
-        MysqlPool.init("127.0.0.1", 3306, "mobbill", "root", "pa55w0rd");
+        if(live){
+            MysqlPool.init("mobbillmaster1.cdotzokutlkn.eu-west-1.rds.amazonaws.com", 3306, "mobbill", "grails", "Gr@1l5");
+        }else{
+            MysqlPool.init("127.0.0.1", 3306, "mobbill", "root", "pa55w0rd");
+        }
+
 
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
