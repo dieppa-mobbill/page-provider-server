@@ -23,8 +23,6 @@ import java.util.logging.Logger;
  */
 public class PageDaoImpl implements PageDao {
 
-
-    private DataSource dataSource;
     private static final Logger LOG = Logger.getLogger(PageDaoImpl.class.getName());
 
 
