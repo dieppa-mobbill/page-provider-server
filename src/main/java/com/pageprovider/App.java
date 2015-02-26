@@ -13,7 +13,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 public class App 
 {
 
-    private final static String CLASSNAMES = "jersey.config.server.provider.classnames";
+    private final static String CLASS_NAMES = "jersey.config.server.provider.classnames";
 
     private static boolean live;
 
@@ -41,7 +41,7 @@ public class App
         jerseyServlet.setInitOrder(0);
 
         // Tells the Jersey Servlet which REST service/class to load.
-        jerseyServlet.setInitParameter(CLASSNAMES, PageProviderRest.class.getCanonicalName());
+        jerseyServlet.setInitParameter(CLASS_NAMES, PageProviderRest.class.getCanonicalName());
 
         try {
             jettyServer.start();

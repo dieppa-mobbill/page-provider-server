@@ -53,14 +53,14 @@ public class PageProviderRest {
         try{
             Page p =this.pageDao.find(content, pageType);
             if(p != null){
-                return Response.status(Response.Status.OK).entity(p.getHtmlFile()).build();
+                return okResponse(p.getHtmlFile());
             }else{
-                return Response.status(Response.Status.NOT_FOUND).entity("PAGE NOT FOUND").build();
+                return notFound();
             }
 
 
         }catch(Exception ex){
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Internal Server Error\n"+ex.getMessage()).build();
+            return internalServerError(ex);
         }
     }
 
@@ -70,10 +70,24 @@ public class PageProviderRest {
 
         try{
             this.pageProviderService.refreshPage(content, pageType);
-            return Response.status(Response.Status.OK).entity("OK").build();
+            return okResponse("OK");
 
         }catch(Exception ex){
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Internal Server Error\n"+ex.getMessage()).build();
+            return internalServerError(ex);
         }
+    }
+
+
+
+    private Response okResponse(Object entity){
+        return Response.status(Response.Status.OK).entity(entity).build();
+    }
+
+    private Response internalServerError(Exception ex){
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Internal Server Error\n"+ex.getMessage()).build();
+    }
+
+    private Response notFound(){
+        return Response.status(Response.Status.NOT_FOUND).entity("PAGE NOT FOUND").build();
     }
 }
