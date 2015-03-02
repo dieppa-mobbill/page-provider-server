@@ -33,17 +33,30 @@ public class PageDaoImpl implements PageDao {
         if(page == null){
             StringBuilder sql = new StringBuilder("SELECT * FROM payment_pages p WHERE content_id = ? and payment_page_type_id = ?");
 
-            Connection conn         = MysqlPool.getConnection();
-            PreparedStatement st    = conn.prepareStatement(sql.toString());
-            st.setInt(1, contentId);
-            st.setInt(2, pageType);
-            ResultSet rs    = st.executeQuery();
+            Connection conn         = null;
+            PreparedStatement st    = null;
+            try {
+                conn = MysqlPool.getConnection();
+                st = conn.prepareStatement(sql.toString());
 
-            List<Page> pages = new PageResultSetExtractor().extractData(rs);
+                st.setInt(1, contentId);
+                st.setInt(2, pageType);
+                ResultSet rs = st.executeQuery();
 
-            if(pages.size() > 0){
-                page = pages.get(0);
-                CachePageService.put(contentId, pageType, page);
+                List<Page> pages = new PageResultSetExtractor().extractData(rs);
+
+                if (pages.size() > 0) {
+                    page = pages.get(0);
+                    CachePageService.put(contentId, pageType, page);
+                }
+            }finally{
+                if(st !=null){
+                    try{st.close();}
+                    catch(Exception ex){
+                        LOG.log(Level.WARNING, ex.getMessage());
+                    }
+                }
+                MysqlPool.closeConnection(conn);
             }
         }
         return page;
