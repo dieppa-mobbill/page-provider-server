@@ -70,9 +70,11 @@ public class PageProviderRest {
 
         try{
             this.pageProviderService.refreshPage(content, pageType);
+            LOG.log(Level.INFO, "REFRESHED {contentId: "+content+" , PageType: "+pageType+"}");
             return okResponse("OK");
 
         }catch(Exception ex){
+            LOG.log(Level.SEVERE, ex.getMessage());
             return internalServerError(ex);
         }
     }
