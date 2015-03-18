@@ -69,8 +69,23 @@ public class PageProviderRest {
     public Response updatepage(@PathParam("contentId") int content, @PathParam("pageType") int pageType) throws Exception{
 
         try{
-            this.pageProviderService.refreshPage(content, pageType);
-            LOG.log(Level.INFO, "REFRESHED {contentId: "+content+" , PageType: "+pageType+"}");
+            this.pageProviderService.refreshCachePage(content, pageType);
+            LOG.log(Level.INFO, "REFRESHED {contentId: " + content + " , PageType: " + pageType + "}");
+            return okResponse("OK");
+
+        }catch(Exception ex){
+            LOG.log(Level.SEVERE, ex.getMessage());
+            return internalServerError(ex);
+        }
+    }
+
+    @DELETE
+    @Path("{contentId}/{pageType}")
+    public Response deletepage(@PathParam("contentId") int content, @PathParam("pageType") int pageType) throws Exception{
+
+        try{
+            this.pageProviderService.deleteCachePage(content, pageType);
+            LOG.log(Level.INFO, "DELETED {contentId: "+content+" , PageType: "+pageType+"}");
             return okResponse("OK");
 
         }catch(Exception ex){

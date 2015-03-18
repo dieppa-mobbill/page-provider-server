@@ -31,6 +31,7 @@ public class PageDaoImpl implements PageDao {
 
         Page page = CachePageService.get(contentId, pageType);
         if(page == null){
+            LOG.log(Level.INFO, "Goes to Database for {contentId: "+contentId+" , PageType: "+pageType+"}");
             StringBuilder sql = new StringBuilder("SELECT * FROM payment_pages p WHERE content_id = ? and payment_page_type_id = ?");
 
             Connection conn         = null;
@@ -53,7 +54,7 @@ public class PageDaoImpl implements PageDao {
                 if(st !=null){
                     try{st.close();}
                     catch(Exception ex){
-                        LOG.log(Level.WARNING, ex.getMessage());
+                        LOG.log(Level.SEVERE, ex.getMessage());
                     }
                 }
                 MysqlPool.closeConnection(conn);

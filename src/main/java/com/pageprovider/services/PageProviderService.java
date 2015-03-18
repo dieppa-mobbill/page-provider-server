@@ -17,8 +17,12 @@ public class PageProviderService {
     }
 
 
-    public void refreshPage(int contentId, int pageType) throws Exception{
+    public void refreshCachePage(int contentId, int pageType) throws Exception{
         CachePageService.delete(contentId, pageType);
         this.pageDao.find(contentId, pageType);
+    }
+
+    public void deleteCachePage(int contentId, int pageType) throws Exception{
+        CachePageService.delete(contentId, pageType);
     }
 }
